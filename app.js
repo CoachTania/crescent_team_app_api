@@ -1,11 +1,10 @@
 import express from 'express';
-import { createReadStream } from 'fs';
+import fs from 'fs';
 import csv from 'csv-parser';
 import cors from 'cors'
 
 const app = express();
-const csv_parser = csv()
-const port = 3000;
+//const csv_parser = csv()
 
 app.use(cors({
   origin: 'null'
@@ -14,8 +13,8 @@ app.use(cors({
 app.get('/', (req, res) => {
   const results = [];
 
-  createReadStream('NASAMiddleSchoolCSVData.csv') // Replace with your CSV file path
-    .pipe(csv_parser)
+  fs.createReadStream('NASAMiddleSchoolCSVData.csv') // Replace with your CSV file path
+    .pipe(csv())
     .on('data', (data) => {
       Object.keys(data).forEach((key) => {
         if (data[key] === '') {
@@ -33,6 +32,6 @@ app.get('/', (req, res) => {
     });
 });
 
-app.listen(port, () => {
-  console.log(`Server listening on port ${port}`);
+app.listen(3000, () => {
+  console.log('Server listening on port 3000');
 });
